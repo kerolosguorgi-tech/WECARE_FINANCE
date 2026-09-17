@@ -3,54 +3,53 @@
 Date: 2026-09-17
 Phase: Implementation
 Implementation Module: 01 — Foundation & Core Architecture
-Version/build: Foundation validation passed; authorization skeleton added
+Version/build: Persistent authentication + bearer session validation
 Status: IN PROGRESS
 
 Completed:
-- Repository initialized and continuity baseline recorded
-- .NET 8 / ASP.NET Core / PostgreSQL / EF Core stack selected
-- Layered solution scaffold created
-- Initial foundation migration generated and applied successfully
-- Local restore, Release build, unit tests, and API health validation passed
-- Server-side authorization contracts and Power Admin permission bypass skeleton added
+- Foundation database and API validation passed
+- Users, roles, permissions, overrides, and sessions persisted in PostgreSQL
+- Password hashing and login failure lockout foundation added
+- Login/logout endpoints added
+- Bearer session middleware added
+- Session expiry, revocation, and active-user checks added
+- Role permissions and user permission overrides loaded server-side
+- Protected identity inspection endpoint added
 
 Database/Migrations:
-- Initial foundation migration applied
-- Tables: AuditLogs, ReferenceSequences, SystemSettings, WorkstationSettings
-- No new database migration required for the authorization contracts yet
+- Existing authentication migration remains valid
+- No schema migration required for bearer validation
 
 Tests:
-- Restore: PASS
-- Release build: PASS
-- Unit tests: PASS
-- EF migration generation/update: PASS
-- PostgreSQL connectivity/authentication: PASS
-- API startup and `/health`: PASS
+- Previous restore/build/test/migration/database/API checks: PASS
+- Bearer-session manual validation: pending
 
 Accepted User Workflow:
-- Local API starts successfully
-- PostgreSQL foundation schema is available
-- Health endpoint confirms database connectivity
+- Login returns a session token
+- Bearer token can identify an active user
+- Logout revokes the session
+- Inactive, locked, revoked, or expired sessions are rejected
 
 Known Issues:
-- Authentication persistence/login/logout is not implemented yet
-- Reference number generation remains a temporary scaffold and is not yet database-backed/transaction-safe
-- No installer has been produced yet
+- Initial Power Admin/user bootstrap is not implemented
+- Login and logout audit events are not yet persisted
+- Reference number generation remains temporary and not database-backed
 
 Frozen New Decisions:
-- Authorization must be enforced server-side
-- Power Admin is recognized as a protected role in the authorization foundation
-- Unauthenticated users do not receive permissions
+- Session tokens are stored only as SHA-256 hashes in the database
+- API authentication is server-side and session-based for local deployment
+- User permission overrides can grant or deny individual permissions
 
 Files/Packages Produced:
-- Foundation solution and projects
-- Initial EF Core migration and model snapshot
-- Authorization contracts and service skeleton
-- Validation and architecture documentation
+- `src/WECAREFinance.Infrastructure/Authentication/SessionAuthenticationMiddleware.cs`
+- Updated authorization service
+- Updated API pipeline and protected identity endpoint
+- `docs/security-validation.md`
 
 Exact Next Step:
-- Implement authentication persistence and the initial users/roles/permissions schema, then add protected test endpoints and audit coverage.
+- Add Power Admin bootstrap, authentication audit events, and automated authentication integration tests.
 
 Do Not Repeat:
 - Do not restart requirements discovery
-- Do not implement later business workflows before Module 01 security foundation is accepted
+- Do not treat bearer-token presence alone as authentication
+- Do not implement later business workflows before Module 01 security acceptance

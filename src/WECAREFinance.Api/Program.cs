@@ -2,7 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using WECAREFinance.Api;
 using WECAREFinance.Application.Abstractions;
 using WECAREFinance.Application.Authentication;
+using WECAREFinance.Application.Authorization;
 using WECAREFinance.Infrastructure;
+using WECAREFinance.Infrastructure.Authentication;
 using WECAREFinance.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,6 +32,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<SessionAuthenticationMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapHealthChecks("/health");
@@ -47,6 +50,21 @@ app.MapGet("/api/system/info", () => new
 
 app.MapGet("/api/system/reference-sample", (IReferenceNumberService referenceNumberService) =>
     Results.Ok(new { sample = referenceNumberService.Generate("INV") }));
+
+app.MapGet("/api/security/me", (ICurrentUser currentUser) =>
+{
+    if (!currentUser.IsAuthenticated)
+        return Results.Unauthorized();
+
+    return Results.Ok(new
+    {
+        currentUser.UserId,
+        currentUser.UserName,
+        currentUser.IsPowerAdmin,
+        systemView = currentUser.HasPermission(Permissions.SystemView),
+        systemConfigure = currentUser.HasPermission(Permissions.SystemConfigure)
+    });
+});
 
 app.Run();
 
