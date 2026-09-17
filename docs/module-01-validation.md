@@ -1,27 +1,15 @@
-# WECARE Finance Module 01 validation commands
+# Module 01 validation result
 
-## Restore
+The following validation was completed locally on the `feature/module-01-architecture` branch:
 
-dotnet restore WECAREFinance.sln
+- `dotnet restore WECAREFinance.sln`: PASS
+- `dotnet build WECAREFinance.sln --configuration Release`: PASS
+- `dotnet test WECAREFinance.sln --configuration Release --no-restore`: PASS
+- EF Core migration generation: PASS
+- EF Core database update: PASS
+- PostgreSQL authentication and connectivity: PASS
+- API startup and `/health` endpoint: PASS
 
-## Build
+The initial foundation database migration has been applied successfully.
 
-dotnet build WECAREFinance.sln --configuration Release
-
-## Test
-
-dotnet test WECAREFinance.sln --configuration Release --no-restore
-
-## Database migration
-
-dotnet ef migrations add InitialFoundation --project src/WECAREFinance.Infrastructure --startup-project src/WECAREFinance.Api
-
-dotnet ef database update --project src/WECAREFinance.Infrastructure --startup-project src/WECAREFinance.Api
-
-## Run API
-
-dotnet run --project src/WECAREFinance.Api
-
-## Health endpoint
-
-http://localhost:5000/health
+The next increment adds the server-side authorization foundation. It is intentionally not a complete user-login implementation yet; authentication persistence and protected administration workflows are part of the next security increment.

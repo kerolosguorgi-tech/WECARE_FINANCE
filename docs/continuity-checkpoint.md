@@ -1,58 +1,56 @@
 # Continuity Checkpoint
 
 Date: 2026-09-17
-Phase: Architecture
+Phase: Implementation
 Implementation Module: 01 — Foundation & Core Architecture
-Version/build: Starter project scaffold + migration-ready validation
+Version/build: Foundation validation passed; authorization skeleton added
 Status: IN PROGRESS
 
 Completed:
 - Repository initialized and continuity baseline recorded
-- Architecture decisions narrowed to an implementation-ready stack
-- Starter .NET solution scaffold created for the foundation
-- PostgreSQL-ready domain and infrastructure project structure initialized
-- Unit test project created for core reference-number generation
-- Migration-ready design-time factory and initial migration scripts added
+- .NET 8 / ASP.NET Core / PostgreSQL / EF Core stack selected
+- Layered solution scaffold created
+- Initial foundation migration generated and applied successfully
+- Local restore, Release build, unit tests, and API health validation passed
+- Server-side authorization contracts and Power Admin permission bypass skeleton added
 
 Database/Migrations:
-- PostgreSQL-ready DbContext configured
-- Initial migration scaffolding added for audit, settings, workstation, and reference sequence tables
-- Final migration execution is pending local validation
+- Initial foundation migration applied
+- Tables: AuditLogs, ReferenceSequences, SystemSettings, WorkstationSettings
+- No new database migration required for the authorization contracts yet
 
 Tests:
-- Reference number generation unit test scaffold created
-- Build/test execution pending local verification
+- Restore: PASS
+- Release build: PASS
+- Unit tests: PASS
+- EF migration generation/update: PASS
+- PostgreSQL connectivity/authentication: PASS
+- API startup and `/health`: PASS
 
 Accepted User Workflow:
-- Local API startup and health endpoint available via scaffold
+- Local API starts successfully
+- PostgreSQL foundation schema is available
+- Health endpoint confirms database connectivity
 
 Known Issues:
-- Local build/test execution has not been verified in this environment
-- PostgreSQL connection is still a configuration placeholder and not yet validated
-- Business modules remain intentionally deferred
+- Authentication persistence/login/logout is not implemented yet
+- Reference number generation remains a temporary scaffold and is not yet database-backed/transaction-safe
+- No installer has been produced yet
 
 Frozen New Decisions:
-- .NET 8 + ASP.NET Core Web API selected for backend
-- PostgreSQL selected as primary database
-- Entity Framework Core + Npgsql selected
-- Desktop-first local/LAN deployment selected
+- Authorization must be enforced server-side
+- Power Admin is recognized as a protected role in the authorization foundation
+- Unauthenticated users do not receive permissions
 
 Files/Packages Produced:
-- `WECAREFinance.sln`
-- `src/WECAREFinance.Api/...`
-- `src/WECAREFinance.Application/...`
-- `src/WECAREFinance.Domain/...`
-- `src/WECAREFinance.Infrastructure/...`
-- `tests/WECAREFinance.UnitTests/...`
-- `docs/architecture/decisions/adr-001-stack-selection.md`
-- `docs/module-01-validation.md`
+- Foundation solution and projects
+- Initial EF Core migration and model snapshot
+- Authorization contracts and service skeleton
+- Validation and architecture documentation
 
 Exact Next Step:
-- Verify the project builds locally with `dotnet restore` and `dotnet test`
-- Run EF migration generation and database update on a PostgreSQL instance
-- Validate health and API startup locally
-- Proceed to the first service skeleton and environment validation
+- Implement authentication persistence and the initial users/roles/permissions schema, then add protected test endpoints and audit coverage.
 
 Do Not Repeat:
-- Do not re-open business requirement discovery
-- Do not implement later modules before the Module 01 foundation is verified
+- Do not restart requirements discovery
+- Do not implement later business workflows before Module 01 security foundation is accepted

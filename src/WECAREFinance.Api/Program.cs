@@ -1,3 +1,4 @@
+using WECAREFinance.Api;
 using Microsoft.EntityFrameworkCore;
 using WECAREFinance.Application.Abstractions;
 using WECAREFinance.Infrastructure;
@@ -8,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddFoundationSecurity();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -27,6 +29,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapHealthChecks("/health");
 
 app.MapGet("/api/system/info", () => new
@@ -46,3 +50,5 @@ app.MapGet("/api/system/reference-sample", (IReferenceNumberService referenceNum
 });
 
 app.Run();
+
+public partial class Program;
