@@ -1,0 +1,26 @@
+# Build artifacts and local configuration
+bin/
+obj/
+dist/
+build/
+coverage/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.pfx
+*.pem
+*.key
+
+# IDE and OS
+.vs/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local data and logs
+*.log
+storage/
+backups/
