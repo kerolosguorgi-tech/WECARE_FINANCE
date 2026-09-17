@@ -50,7 +50,10 @@ public partial class AppDbContext
         {
             entity.HasKey(x => new { x.UserId, x.PermissionId });
             entity.HasOne(x => x.User).WithMany(x => x.PermissionOverrides).HasForeignKey(x => x.UserId);
-            entity.HasOne(x => x.Permission).WithMany(x => x.RolePermissions).HasForeignKey(x => x.PermissionId).OnDelete(DeleteBehavior.Restrict);
+            entity.HasOne(x => x.Permission)
+                .WithMany()
+                .HasForeignKey(x => x.PermissionId)
+                .OnDelete(DeleteBehavior.Restrict);
             entity.Property(x => x.Reason).HasMaxLength(500);
         });
 
