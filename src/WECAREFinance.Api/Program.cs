@@ -1,6 +1,7 @@
-using WECAREFinance.Api;
 using Microsoft.EntityFrameworkCore;
+using WECAREFinance.Api;
 using WECAREFinance.Application.Abstractions;
+using WECAREFinance.Application.Authentication;
 using WECAREFinance.Infrastructure;
 using WECAREFinance.Infrastructure.Services;
 
@@ -10,6 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddFoundationSecurity();
+builder.Services.AddFoundationAuthentication();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -18,8 +20,7 @@ builder.Services.AddScoped<IReferenceNumberService, ReferenceNumberService>();
 builder.Services.AddScoped<IAuditService, AuditService>();
 builder.Services.AddScoped<IWorkstationSettingsService, WorkstationSettingsService>();
 
-builder.Services.AddHealthChecks()
-    .AddCheck<PostgresHealthCheck>("postgres");
+builder.Services.AddHealthChecks().AddCheck<PostgresHealthCheck>("postgres");
 
 var app = builder.Build();
 
@@ -32,6 +33,7 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapHealthChecks("/health");
+app.MapFoundationAuthentication();
 
 app.MapGet("/api/system/info", () => new
 {
@@ -44,10 +46,7 @@ app.MapGet("/api/system/info", () => new
 });
 
 app.MapGet("/api/system/reference-sample", (IReferenceNumberService referenceNumberService) =>
-{
-    var sample = referenceNumberService.Generate("INV");
-    return Results.Ok(new { sample });
-});
+    Results.Ok(new { sample = referenceNumberService.Generate("INV") }));
 
 app.Run();
 
