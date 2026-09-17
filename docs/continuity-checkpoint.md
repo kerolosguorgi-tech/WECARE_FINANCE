@@ -3,7 +3,7 @@
 Date: 2026-09-17
 Phase: Architecture
 Implementation Module: 01 — Foundation & Core Architecture
-Version/build: Starter project scaffold
+Version/build: Starter project scaffold + migration-ready validation
 Status: IN PROGRESS
 
 Completed:
@@ -12,10 +12,12 @@ Completed:
 - Starter .NET solution scaffold created for the foundation
 - PostgreSQL-ready domain and infrastructure project structure initialized
 - Unit test project created for core reference-number generation
+- Migration-ready design-time factory and initial migration scripts added
 
 Database/Migrations:
 - PostgreSQL-ready DbContext configured
-- Migration strategy deferred to initial migration creation step
+- Initial migration scaffolding added for audit, settings, workstation, and reference sequence tables
+- Final migration execution is pending local validation
 
 Tests:
 - Reference number generation unit test scaffold created
@@ -43,12 +45,13 @@ Files/Packages Produced:
 - `src/WECAREFinance.Infrastructure/...`
 - `tests/WECAREFinance.UnitTests/...`
 - `docs/architecture/decisions/adr-001-stack-selection.md`
+- `docs/module-01-validation.md`
 
 Exact Next Step:
 - Verify the project builds locally with `dotnet restore` and `dotnet test`
-- Add the first migration for the core schema
-- Add startup configuration and environment validation
-- Proceed to the first service skeleton and local database verification
+- Run EF migration generation and database update on a PostgreSQL instance
+- Validate health and API startup locally
+- Proceed to the first service skeleton and environment validation
 
 Do Not Repeat:
 - Do not re-open business requirement discovery

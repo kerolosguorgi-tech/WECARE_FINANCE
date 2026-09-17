@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using WECAREFinance.Application.Abstractions;
 using WECAREFinance.Domain.Entities;
 
@@ -7,8 +8,8 @@ public class ReferenceNumberService : IReferenceNumberService
 {
     public string Generate(string prefix, DateTimeOffset? timestamp = null)
     {
-        var utcNow = timestamp ?? DateTimeOffset.UtcNow;
-        var year = utcNow.ToLocalTime().Year;
+        var effectiveTimestamp = timestamp ?? DateTimeOffset.UtcNow;
+        var year = effectiveTimestamp.ToLocalTime().Year;
         var sequence = Random.Shared.NextInt64(100000, 999999);
         return $"{prefix.ToUpperInvariant()}-{year}-{sequence}";
     }
