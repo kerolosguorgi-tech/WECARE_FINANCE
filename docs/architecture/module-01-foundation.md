@@ -4,7 +4,16 @@
 
 Establish the technical foundation for WECARE Finance before implementing business workflows.
 
-## Required capabilities
+## Implemented increment
+
+- ASP.NET Core 8 API host
+- PostgreSQL connectivity through EF Core/Npgsql
+- Versioned EF Core migration for the foundation schema
+- Liveness and readiness health checks
+- JSON console logging and environment configuration
+- Test project with host-independent foundation checks
+
+## Required capabilities and extension points
 
 - Local/on-premise deployment model
 - PostgreSQL connectivity and versioned migrations
@@ -22,16 +31,16 @@ Establish the technical foundation for WECARE Finance before implementing busine
 
 ## Constraints
 
-This module must not invent or redefine the frozen business rules in the continuity roadmap. It must provide extension points for later modules without prematurely implementing their workflows.
+This module must not invent or redefine frozen business rules in the continuity roadmap. The migration only creates foundation metadata and does not create accounting or other business workflows.
 
-## Architecture decisions still to freeze before coding
+## Verification commands
 
-1. Backend language/framework.
-2. UI approach: browser-based desktop-first client or packaged desktop shell.
-3. Authentication/session strategy.
-4. Migration tooling.
-5. Installer technology and Windows service model.
-6. Document storage layout and encryption-at-rest policy.
-7. Supported Windows and PostgreSQL versions.
+```powershell
+dotnet restore
+dotnet build
+dotnet test
+$env:ConnectionStrings__Finance = "Host=localhost;Port=5432;Database=wecare_finance;Username=...;Password=..."
+dotnet run --project src/WECARE.Finance.Api
+```
 
-Technical defaults may be selected by the architect where they do not change business behavior, and must be recorded as ADRs.
+Readiness requires a reachable PostgreSQL instance and a database user permitted to access the `finance` schema.

@@ -4,14 +4,14 @@ Local/on-premise financial management platform for WECARE Medical LLC.
 
 ## Current checkpoint
 
-- Phase: Architecture
+- Phase: Foundation implementation
 - Module: 01 — Foundation & Core Architecture
-- Status: In progress
-- Coding: Not started
-- Database schema: Not designed
+- Status: Foundation scaffold implemented; verification pending in CI/local environment
+- Backend: ASP.NET Core 8 minimal API
+- Database: PostgreSQL via Npgsql and EF Core migrations
 - Deployment target: Windows-heavy local/LAN installation with PostgreSQL
 
-The authoritative product requirements are maintained in the project continuity roadmap. The first implementation increment is the Module 01 architecture and foundation scaffold; business workflows are intentionally not implemented yet.
+The authoritative product requirements are maintained in the project continuity roadmap. Business workflows remain intentionally unimplemented until their module checkpoints are reached.
 
 ## Principles
 
